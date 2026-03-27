@@ -95,18 +95,70 @@ function submitForm() {
 
 <style scoped>
 .form {
+  background-color: #e0f2ff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #90cdf4;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+input:focus {
+  border-color: #0284c7;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #075985;
+  font-size: 0.95rem;
+}
+
+button {
+  padding: 10px;
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #0369a1;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
 }
 
 .error {
-  color: red;
-  font-size: 0.9rem;
+  color: #e53935;
+  font-size: 0.85rem;
+  margin-top: -6px;
 }
 
 .success {
-  color: green;
+  color: #0284c7;
+  font-weight: 600;
+  text-align: center;
   margin-top: 10px;
 }
 
