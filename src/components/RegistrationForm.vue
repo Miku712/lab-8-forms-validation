@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 const form = reactive({
   name: '',
@@ -11,25 +11,38 @@ const form = reactive({
 })
 
 const errors = reactive({})
+const isSubmitting = ref(false)
+const success = ref(false)
 
 function validate() {
-  Object.keys(errors).forEach(key => delete errors[key])
+  Object.keys(errors).forEach(k => delete errors[k])
 
   if (!form.name) errors.name = "Обов'язкове поле"
   if (!form.email.includes('@')) errors.email = "Невірний email"
   if (form.password.length < 6) errors.password = "Мінімум 6 символів"
   if (form.password !== form.confirmPassword)
     errors.confirmPassword = "Паролі не співпадають"
-  if (form.age < 18) errors.age = "Мінімум 18 років"
+  if (form.age < 18) errors.age = "18+"
   if (!form.agree) errors.agree = "Потрібно погодитись"
 
   return Object.keys(errors).length === 0
 }
 
+watch(form, () => {
+  Object.keys(errors).forEach(k => delete errors[k])
+})
+
 function submitForm() {
-  if (validate()) {
-    console.log("OK", form)
-  }
+  if (!validate()) return
+
+  isSubmitting.value = true
+
+  setTimeout(() => {
+    success.value = true
+    isSubmitting.value = false
+
+    Object.keys(form).forEach(k => form[k] = k === 'agree' ? false : '')
+  }, 1500)
 }
 </script>
 
@@ -56,6 +69,10 @@ function submitForm() {
     </label>
     <p v-if="errors.agree">{{ errors.agree }}</p>
 
-    <button type="submit">Зареєструватися</button>
+    <button :disabled="isSubmitting">
+      {{ isSubmitting ? "Відправка..." : "Зареєструватися" }}
+    </button>
+
+    <p v-if="success">Успішно!</p>
   </form>
 </template>
